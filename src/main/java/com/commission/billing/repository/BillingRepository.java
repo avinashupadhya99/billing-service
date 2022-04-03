@@ -2,13 +2,13 @@ package com.commission.billing.repository;
 
 import java.util.Optional;
 
-import com.commission.billing.model.Customer;
+import com.commission.billing.model.Billing;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface CustomerRepository extends CrudRepository<Customer, UUID> {
-    Optional<Customer> findById(UUID id);
+public interface BillingRepository extends CrudRepository<Billing, UUID> {
+
 }
