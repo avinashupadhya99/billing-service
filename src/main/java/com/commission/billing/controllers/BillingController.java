@@ -6,8 +6,10 @@ import javax.validation.ConstraintViolationException;
 
 import com.commission.billing.model.Billing;
 import com.commission.billing.model.Customer;
+import com.commission.billing.model.EmailDetails;
 import com.commission.billing.repository.CustomerRepository;
 import com.commission.billing.service.BillingService;
+import com.commission.billing.service.EmailService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,9 @@ public class BillingController {
     @Autowired
     CustomerRepository customerRepository;
 
+    @Autowired
+	EmailService emailService;
+
     private static final Logger logger = LoggerFactory.getLogger(BillingController.class);
 
 
@@ -43,6 +48,8 @@ public class BillingController {
             }
             Billing newBilling = billingService.createBill(billing);
             logger.info("New bill created with BillingID - {}", newBilling.getId());
+            EmailDetails emailDetails = emailService.createEmailDetails(newBilling, customer.get());
+            emailService.send(emailDetails);
             return new ResponseEntity<>(newBilling, HttpStatus.OK);
         } catch(ConstraintViolationException ex) {
             logger.error("Constraint Validation error {} ", ex.getMessage());
