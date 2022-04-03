@@ -17,10 +17,10 @@ public class EmailService {
 	@Autowired
 	private AmqpTemplate amqpTemplate;
 	
-	@Value("${javainuse.rabbitmq.exchange}")
+	@Value("${commission.rabbitmq.exchange}")
 	private String exchange;
 	
-	@Value("${javainuse.rabbitmq.routingkey}")
+	@Value("${commission.rabbitmq.routingkey}")
 	private String routingkey;	
 	String kafkaTopic = "email_details_topic";
 
