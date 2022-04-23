@@ -18,6 +18,6 @@ public class HealthController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date now = new Date();
         String strDate = sdf.format(now);
-        return new ResponseEntity<>("Order Service is healthy at "+strDate, HttpStatus.OK);
+        return new ResponseEntity<>("Billing Service is healthy at "+strDate, HttpStatus.OK);
     }
 }
