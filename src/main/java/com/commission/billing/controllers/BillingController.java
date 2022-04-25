@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import io.opentracing.Span;
+import io.opentracing.util.GlobalTracer;
 
 @RestController
 @RequestMapping("/api/v1/billing")
@@ -41,6 +43,10 @@ public class BillingController {
             method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Billing> createBilling(@RequestBody Billing billing) {
         try {
+            final Span span = GlobalTracer.get().activeSpan();
+            if (span != null) {
+                span.setTag("order_id", billing.getOrderId());
+            }
             Optional<Customer> customer = customerRepository.findById(billing.getCustomerId());
             if(!customer.isPresent()) {
                 logger.error("No customer with ID - {}", billing.getCustomerId());
