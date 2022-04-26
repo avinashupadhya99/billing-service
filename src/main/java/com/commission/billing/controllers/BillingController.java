@@ -53,6 +53,10 @@ public class BillingController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             Billing newBilling = billingService.createBill(billing);
+            if (span != null) {
+                span.setTag("billing_amount", newBilling.getAmount());
+                span.setTag("product", newBilling.getProduct());
+            }
             logger.info("New bill created with BillingID - {}", newBilling.getId());
             EmailDetails emailDetails = emailService.createEmailDetails(newBilling, customer.get());
             emailService.send(emailDetails);
